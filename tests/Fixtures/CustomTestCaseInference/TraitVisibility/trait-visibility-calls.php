@@ -17,6 +17,11 @@ it('can call protected and private static trait methods through $this', function
     $this::privateStaticTraitMethod();
 });
 
+it('can read protected and private trait constants through $this', function (): void {
+    expect($this::PROTECTED_TRAIT_CONSTANT)->toBe('protected');
+    expect($this::PRIVATE_TRAIT_CONSTANT)->toBe('private');
+});
+
 beforeEach(function (): void {
     $this->privateTraitMethod();
     $this::privateStaticTraitMethod();

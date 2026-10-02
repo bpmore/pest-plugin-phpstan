@@ -17,4 +17,5 @@ it('still reports private trait methods called on an object other than $this', f
 
     $other->privateTraitMethod();
     $other::privateStaticTraitMethod();
+    expect($other::PRIVATE_TRAIT_CONSTANT)->toBe('private');
 });

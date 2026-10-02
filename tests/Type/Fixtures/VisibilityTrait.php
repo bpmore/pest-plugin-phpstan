@@ -6,6 +6,10 @@ namespace Tests\Type\Fixtures;
 
 trait VisibilityTrait
 {
+    protected const string PROTECTED_TRAIT_CONSTANT = 'protected';
+
+    private const string PRIVATE_TRAIT_CONSTANT = 'private';
+
     protected static function protectedStaticTraitMethod(): string
     {
         return 'protected static';

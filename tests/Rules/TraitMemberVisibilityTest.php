@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Rules;
 
+use PHPStan\Rules\Classes\ClassConstantRule;
 use PHPStan\Rules\Methods\CallMethodsRule;
 use PHPStan\Rules\Methods\CallStaticMethodsRule;
 use Tests\RuleTestCase;
@@ -48,5 +49,23 @@ test('private static trait methods called on another object are still reported',
         __DIR__.'/../Fixtures/CustomTestCaseInference/TraitVisibility/trait-visibility-errors.php',
     ], [
         ['Call to private static method privateStaticTraitMethod() of class Tests\Type\Fixtures\VisibilityTraitUser.', 19],
+    ]);
+});
+
+test('protected and private trait constants are readable through $this in pest closures', function (): void {
+    RuleTestCase::$rule = RuleTestCase::resolveRule(ClassConstantRule::class);
+
+    $this->analyse([
+        __DIR__.'/../Fixtures/CustomTestCaseInference/TraitVisibility/trait-visibility-calls.php',
+    ], []);
+});
+
+test('private trait constants read from another object are still reported', function (): void {
+    RuleTestCase::$rule = RuleTestCase::resolveRule(ClassConstantRule::class);
+
+    $this->analyse([
+        __DIR__.'/../Fixtures/CustomTestCaseInference/TraitVisibility/trait-visibility-errors.php',
+    ], [
+        ['Access to private constant PRIVATE_TRAIT_CONSTANT of class Tests\\Type\\Fixtures\\VisibilityTraitUser.', 20],
     ]);
 });
